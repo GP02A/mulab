@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<% var root = '../../'; %>
+<html>
+<head>
+	<title><%= title %></title>
+	<%- include(root + 'includes/head'); %>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script>
+	wx.config({
+		debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+		appId: '<%= ai %>', // 必填，公众号的唯一标识
+		timestamp: '<%= ts %>', // 必填，生成签名的时间戳
+		nonceStr: '<%= ns %>', // 必填，生成签名的随机串
+		signature: '<%= sg %>',// 必填，签名，见附录1
+		jsApiList: [
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage'
+		] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	});
+	//分享到朋友圈
+	wx.ready(function () {
+		var link = window.location.href;
+        var protocol = window.location.protocol;
+        var host = window.location.host;
+		wx.onMenuShareTimeline({
+			title: 'BMI Calculator', // 分享标题
+			link: link,  // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			imgUrl: protocol+'//'+host+'/images/main/wxtestqr.jpg', // 分享图标
+			success: function () {
+				console.log('success');
+			},
+			cancel: function () {
+				console.log('canceled')
+			}
+		});
+		//分享给朋友
+		wx.onMenuShareAppMessage({
+			title: 'Are you OK???', // 分享标题
+			desc: '2233......ORZ',
+			link: link,
+			imgUrl: protocol+'//'+host+'/images/main/wxtestqr.jpg', // 分享图标
+			trigger: function (res) {
+				// 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+			},
+			success: function (res) {
+				// 分享成功执行此回调函数
+				alert('已分享?');
+			},
+			cancel: function (res) {
+				alert('已取消');
+			},
+			fail: function (res) {
+				alert(JSON.stringify(res));
+			}
+		});
+		$("#s-moment").button().click(function(){
+			wx.showMenuItems({
+	menuList: ['menuItem:share:appMessage','menuItem:share:timeline'] // 要显示的菜单项，所有menu项见附录3
+	});
+		 });
+	})
+	</script>
+	<style>
+	.width-g-1 {width: 3em;}
+	.ps-relative{position: relative;}
+	/* Underweight */
+	.bmi-cat-switch-uw.sc-uw { display: inline-block; min-width: 10px; margin: 5px 0px; padding: 3px 7px; font-size: 24px; font-weight: 700; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: middle; background-color: lightsalmon; border-radius: 10px; transition: all linear 0.5s; }
+	.bmi-cat-switch-uw ~ .focus-border {position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: lightsalmon; transition: 0.4s;}
+	.bmi-cat-switch-uw.sc-uw ~ .focus-border{width: 100%; transition: 1s;}
+	.info-uw { display: none; }
+	.info-uw.sc-uw { display: block; }
+
+
+	/* Normal weight */
+	.bmi-cat-switch-nw.sc-nw { display: inline-block; min-width: 10px; margin: 5px 0px; padding: 3px 7px; font-size: 24px; font-weight: 700; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: middle; background-color: green; border-radius: 10px; transition: all linear 0.5s; }
+	.bmi-cat-switch-nw ~ .focus-border {position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: green; transition: 0.4s;}
+	.bmi-cat-switch-nw.sc-nw ~ .focus-border{width: 100%; transition: 1s;}
+	.info-nw { display: none; }
+	.info-nw.sc-nw { display: block; }
+
+
+	/* Over weight */
+	.bmi-cat-switch-ow.sc-ow { display: inline-block; min-width: 10px; margin: 5px 0px; padding: 3px 7px; font-size: 24px; font-weight: 700; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: middle; background-color: lightsalmon; border-radius: 10px; transition: all linear 0.5s; }
+	.bmi-cat-switch-ow ~ .focus-border {position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: lightsalmon; transition: 0.4s;}
+	.bmi-cat-switch-ow.sc-ow ~ .focus-border{width: 100%; transition: 1s;}
+	.info-ow { display: none; }
+	.info-ow.sc-ow { display: block; }
+
+
+	/* Obesity */
+	.bmi-cat-switch-ob.sc-ob { display: inline-block; min-width: 10px; margin: 5px 0px; padding: 3px 7px; font-size: 24px; font-weight: 700; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: middle; background-color: tomato; border-radius: 10px; transition: all linear 0.5s; }
+	.bmi-cat-switch-ob ~ .focus-border {position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: tomato; transition: 0.4s;}
+	.bmi-cat-switch-ob.sc-ob ~ .focus-border{width: 100%; transition: 1s;}
+	.info-ob { display: none; }
+	.info-ob.sc-ob { display: block; }
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<%- include(root + 'includes/header'); %>
+		<div class="container mgt-p20">
+			<div class="main">
+				<div class="list-group-item">
+					<p>Body mass index (BMI) is a measure of body fat based on height and weight that applies to adult men and women.</p>
+					<ul>
+						<li>Enter your weight and height using standard or metric measures.</li>
+						<li>Select "Compute BMI" and your BMI will appear below.</li>
+					</ul>
+					<div ng-app="bmi-cal" ng-controller="bmi-cal-ctrl">
+						<form name="bmiform">
+							<p>Height: </p>
+							<div class="input-group">
+								<input type="number" min="0" class="form-control" ng-model="Height" ng-change="result()" required><!-- step="0.01"  for decimal definition-->
+								<span class="input-group-addon width-g-1">cm</span>
+							</div>
+							<p>Weight: </p>
+							<div class="input-group">
+								<input type="number" min="0" class="form-control" ng-model="Weight" ng-change="result()" required>
+								<span class="input-group-addon width-g-1">kg</span>
+							</div>
+						</form>
+						<!--<p>BMI: {{ Weight / (Height * Height) }}</p>-->
+						<!-- only show result when form are filled -->
+						<p ng-hide="bmiform.$valid">Please enter your Height and weight.</p>
+						<div ng-show="bmiform.$valid">
+							<p>BMI: {{ bmimk2 }}</p>
+							<p>Stage: {{ stage }}</p>
+						</div>
+						<p>BMI Categories: </p>
+						<div class="">
+							<div class="ps-relative">
+								<span class="bmi-cat-switch-uw {{ stageclass }}">Underweight = <18.5</span>
+								<div class="info-uw {{ stageclass }}">under weight info</div>
+								<span class="focus-border"></span>
+							</div>
+
+							<div class="ps-relative">
+								<span class="bmi-cat-switch-nw {{ stageclass }}">Normal weight = 18.5–24.9</span>
+								<div class="info-nw {{ stageclass }}">normal weight info</div>
+								<span class="focus-border"></span>
+							</div>
+							<div class="ps-relative">
+								<span class="bmi-cat-switch-ow {{ stageclass }}">Overweight = 25–29.9</span>
+								<div class="info-ow {{ stageclass }}">over weight info</div>
+								<span class="focus-border"></span>
+							</div>
+							<div class="ps-relative">
+								<span class="bmi-cat-switch-ob {{ stageclass }}">Obesity = BMI of 30 or greater</span>
+								<div class="info-ob {{ stageclass }}">obesity info</div>
+								<span class="focus-border"></span>
+							</div>
+						</div>
+					</div>
+
+					<script>
+					var app = angular.module("bmi-cal", []);
+					app.controller("bmi-cal-ctrl", function($scope) {
+						$scope.bmimk2 = "Please enter your Height and weight.";
+						$scope.result = function() {
+							//$scope.bmi = $scope.Weight / Math.pow($scope.Height/100, 2);
+							$scope.bmi = $scope.Weight / (($scope.Height/100) * ($scope.Height/100));
+							$scope.bmimk2 = $scope.bmi.toFixed(2);
+							if ($scope.bmi < 18.5) {
+								$scope.stage = "Underweight";
+								$scope.stageclass = "sc-uw";
+							};
+							if ($scope.bmi >= 18.5 && $scope.bmi < 24.9 ) {
+								$scope.stage = "Normal weight";
+								$scope.stageclass = "sc-nw";
+							};
+							if ($scope.bmi >= 25 && $scope.bmi < 29.9 ) {
+								$scope.stage = "Overweight";
+								$scope.stageclass = "sc-ow";
+							};
+							if ($scope.bmi >= 30) {
+								$scope.stage = "Obesity";
+								$scope.stageclass = "sc-ob";
+							};
+						}
+					});
+					</script>
+				</div>
+			</div><!--end of main -->
+			<div class="btn-group d-flex mgt-g1" role="group" aria-label="Basic example">
+				<button type="button" class="btn btn-outline-primary w-100" id="s-moment">moment</button>
+				<button type="button" class="btn btn-outline-primary w-100" id="s-friend">friend</button>
+			</div>
+		</div><!-- end of container -->
+		<div class="push"></div>
+	</div><!-- end of wrapper -->
+	<%- include(root +'includes/footer'); %>
+	<script>
+
+	</script>
+</body>
+</html>

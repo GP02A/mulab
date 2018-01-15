@@ -1,0 +1,70 @@
+<footer class="psfooter text-center">
+	<!--<div class="mgt-p10 fsg-1 text-muted">
+		Test phase I
+	</div>-->
+	<div class="mgt-p10 text-center psfooter-mk2">
+		<div class="" style="display: inline-block; vertical-align: middle; text-align: left;">
+			<a href="#qrmodal" data-toggle="modal" >
+				<img style="height: 50px; margin: 0 5px 0 0;" alt="logo" src="/images/main/wxtestqr.jpg">
+			</a>
+			<!-- Modal -->
+			<div id="qrmodal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 id="myModalLabel" class="modal-title">wechat testing account qrcode</h4>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+						</div>
+						<div class="modal-body text-center">
+							<img style="max-width: 100%; height: auto;" src="/images/main/wxtestqr.jpg" alt="qrcode">
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="fsg-1" style="display: inline-block; vertical-align: middle; text-align: left;">
+			<div>Node test field</div>
+			<div>©2018 Bo</div>
+			<div>←Test wechat account QR code</div>
+		</div>
+	</div>
+</footer>
+<a id="back-to-top" href="#" class="btn btn-xs back-to-top" role="button" title="点击返回顶部" data-toggle="tooltip" data-placement="left"><i class="fa fa-chevron-up"></i></a>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!--smooth scroll&fadeIn need the full ver. jquery, otherwise can go with slim ver.-->
+<script src="/js/jquery.min.js"></script>
+<!-- popper.js -->
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script>
+$(function(){
+	var mainNavHeight = $("#uv-mainav").outerHeight();
+	var footerHeight = $(".psfooter").outerHeight();
+	//add +20+"px" after mainNavHeight if need a universal margin under mainNav
+	$("#uv-mainav-push").css("height", mainNavHeight);
+	$(".push").css("height", footerHeight);
+	$(".wrapper").css("margin-bottom", -footerHeight);
+});
+$(document).ready(function(){
+	$(window).scroll(function () {
+		if ($(this).scrollTop() > 100) {
+			$('#back-to-top').fadeIn();
+		} else {
+			$('#back-to-top').fadeOut();
+		}
+	});
+	// scroll body to 0px on click
+	$('#back-to-top').click(function () {
+		$('#back-to-top').tooltip('hide');
+		$('body,html').animate({
+			scrollTop: 0
+		}, 800);
+		return false;
+	});
+	$('#back-to-top').tooltip('show');
+});
+</script>

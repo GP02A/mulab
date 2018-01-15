@@ -1,0 +1,58 @@
+html, body {
+	height: 100%;
+	/* font-family: "微软雅黑",'Microsoft Yahei',Arial,Helvetica,"黑体",sans-serif; */
+	/*font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', 微软雅黑, Arial, sans-serif;  *//* fm in wechat web app */
+	background-color: #F5F3EE;
+}
+
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	margin: 0 auto -50px; /* the bottom margin is the negative value of the footer's height */
+}
+
+.push {
+	height: 120px; /* .push must be the same height as .footer */
+	/* I add 20px here to seperate footer and main content */
+	margin-top:20px;
+}
+
+.psfooter {
+	padding:10px 5px;
+	background-color: #FDF3E7;
+}
+
+#img-navlogo {
+	height: 38px;
+	margin: 6px;
+}
+
+.back-to-top {
+  cursor: pointer;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+	display:none;
+  color: #F07C2D;
+  border-color: #F07C2D;
+}
+
+.main {
+	background-color: white;
+}
+
+.mgt-p20 {
+	margin-top: 20px;
+}
+
+.mgt-g1 {
+	margin-top: 10px;
+}
+
+a.tdn:link, a.tdn:visited, a.tdn:hover, a.tdn:active{
+	text-decoration: none;
+}
+
+.fsg-1, .btf-xs {
+	font-size: 12px;
+}
